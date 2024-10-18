@@ -7,8 +7,6 @@ fn main() {
 
     let numero_aleatorio = rand::thread_rng().gen_range(1..=100);
 
-    println!("El numero aleatorio es: {numero_aleatorio}");
-
     loop {
         println!("Ingrese un valor.");
 
@@ -18,10 +16,13 @@ fn main() {
             .read_line(&mut valor)
             .expect("Fallo al leer el valor.");
 
-        let valor: u32 = valor
-            .trim()
-            .parse()
-            .expect("Por favor digite un valor numerico");
+        let valor: u32 = match valor.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Intenta de nuevo");
+                continue;
+            }
+        };
 
         println!("Valor digitado: {}", valor);
 
