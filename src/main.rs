@@ -1,14 +1,37 @@
+use rand::Rng;
+use std::cmp::Ordering;
 use std::io;
 
 fn main() {
-    println!("Adivina el numero!");
-    println!("Ingrese un valor.");
+    println!("!Adivina el numero!");
 
-    let mut guess = String::new();
+    let numero_aleatorio = rand::thread_rng().gen_range(1..=100);
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Fallo al leer la linea");
+    println!("El numero aleatorio es: {numero_aleatorio}");
 
-    println!("Valor digitado: {}", guess);
+    loop {
+        println!("Ingrese un valor.");
+
+        let mut valor = String::new();
+
+        io::stdin()
+            .read_line(&mut valor)
+            .expect("Fallo al leer el valor.");
+
+        let valor: u32 = valor
+            .trim()
+            .parse()
+            .expect("Por favor digite un valor numerico");
+
+        println!("Valor digitado: {}", valor);
+
+        match valor.cmp(&numero_aleatorio) {
+            Ordering::Less => println!("Numero por debajo"),
+            Ordering::Greater => println!("Numero por encima"),
+            Ordering::Equal => {
+                println!("¡Acertaste!");
+                break;
+            }
+        }
+    }
 }
